@@ -235,9 +235,15 @@ if(selectedStart){
 }
 
 if(selectedEnd){
+
   const endDate = new Date(selectedEnd)
+
+  endDate.setHours(23,59,59,999)
+
   if(caseDate > endDate) pass=false
+
 }
+
 
 
     if(catVal && c.kategori!==catVal) pass=false  
