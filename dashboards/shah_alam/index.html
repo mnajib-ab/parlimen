@@ -222,18 +222,25 @@ function renderData(){
   let pass=true
 
   // convert tarikh kes → Date Malaysia
-  const parts = c.tarikh.split("-") // DD-MM-YYYY
-  const caseDate = new Date(parts[2], parts[1]-1, parts[0])
 
-  if(selectedStart){
-    const startDate = new Date(selectedStart)
-    if(caseDate < startDate) pass=false
-  }
+const parts = c.tarikh.split("-") // DD-MM-YYYY
 
-  if(selectedEnd){
-    const endDate = new Date(selectedEnd)
-    if(caseDate > endDate) pass=false
-  }
+const caseDate = new Date(
+  parts[2],
+  parts[1]-1,
+  parts[0]
+)
+
+if(selectedStart){
+  const startDate = new Date(selectedStart)
+  if(caseDate < startDate) pass=false
+}
+
+if(selectedEnd){
+  const endDate = new Date(selectedEnd)
+  if(caseDate > endDate) pass=false
+}
+
 
     if(catVal && c.kategori!==catVal) pass=false  
     if(areaVal==="inside" && !c.inside) pass=false  
