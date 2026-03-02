@@ -187,8 +187,10 @@ async function loadJSON(){
   const data=await res.json()  
   const categorySet=new Set()  
   data.forEach(item=>{  
+    console.log("RAW", item.created_at)
     const case_id=item.case_id  
-    const {tarikh,masa}=formatMalaysiaDateTime(item.created_at)  
+    const {tarikh,masa}=formatMalaysiaDateTime(item.created_at)
+    console.log("MY", tarikh, masa)
     const kategori=item.kategori_aduan  
     const ringkasan=item.ringkasan_aduan  
     const lat=parseFloat(item.lat)  
