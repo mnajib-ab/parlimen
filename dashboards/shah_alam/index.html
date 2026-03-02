@@ -200,7 +200,7 @@ async function loadJSON(){
     categorySet.add(kategori)  
     const point=L.latLng(lat,lng)  
     const inside=leafletPip.pointInLayer(point,boundaryLayer).length>0  
-    allCases.push({case_id,tarikh,masa,kategori,ringkasan,lat,lng,inside,status,urgency,image})  
+    allCases.push({case_id,tarikh,masa,kategori,ringkasan,lat,lng,inside,status,urgency,image,created_at: item.created_at})  
   })  
   const catSelect=document.getElementById("categoryFilter")  
   catSelect.innerHTML='<option value="">Semua</option>'  
@@ -216,33 +216,40 @@ function renderData(){
   if(heatLayer) map.removeLayer(heatLayer)  
   const catVal=document.getElementById("categoryFilter").value  
   const areaVal=document.getElementById("areaFilter").value  
-  const filtered=allCases.filter(c=>{
+ const filtered=allCases.filter(c=>{
   let pass=true
 
-  // convert tarikh kes → Date Malaysia
+  // guna created_at asal → convert ke Malaysia
+  const raw = new Date(c.created_at)
 
-const parts = c.tarikh.split("-") // DD-MM-YYYY
+  const caseDate = new Date(
+    raw.getUTCFullYear(),
+    raw.getUTCMonth(),
+    raw.getUTCDate()
+  )
 
-const caseDate = new Date(
-  parts[2],
-  parts[1]-1,
-  parts[0]
-)
+  if(selectedStart){
+    const s = new Date(selectedStart)
+    const startDate = new Date(
+      s.getFullYear(),
+      s.getMonth(),
+      s.getDate()
+    )
 
-if(selectedStart){
-  const startDate = new Date(selectedStart)
-  if(caseDate < startDate) pass=false
-}
+    if(caseDate < startDate) pass=false
+  }
 
-if(selectedEnd){
+  if(selectedEnd){
+    const e = new Date(selectedEnd)
+    const endDate = new Date(
+      e.getFullYear(),
+      e.getMonth(),
+      e.getDate()
+    )
 
-  const endDate = new Date(selectedEnd)
+    if(caseDate > endDate) pass=false
+  }
 
-  endDate.setHours(23,59,59,999)
-
-  if(caseDate > endDate) pass=false
-
-}
 
 
 
