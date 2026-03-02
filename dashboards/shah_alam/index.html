@@ -223,9 +223,9 @@ function renderData(){
   const raw = new Date(c.created_at)
 
   const caseDate = new Date(
-    raw.getUTCFullYear(),
-    raw.getUTCMonth(),
-    raw.getUTCDate()
+    raw.getFullYear(),
+    raw.getMonth(),
+    raw.getDate()
   )
 
   if(selectedStart){
