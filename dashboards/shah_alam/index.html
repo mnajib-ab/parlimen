@@ -216,10 +216,23 @@ function renderData(){
   if(heatLayer) map.removeLayer(heatLayer)  
   const catVal=document.getElementById("categoryFilter").value  
   const areaVal=document.getElementById("areaFilter").value  
-  const filtered=allCases.filter(c=>{  
-    let pass=true  
-    if(selectedStart && c.tarikh.split("-").reverse().join("-")<selectedStart) pass=false  
-    if(selectedEnd && c.tarikh.split("-").reverse().join("-")>selectedEnd) pass=false  
+  const filtered=allCases.filter(c=>{
+  let pass=true
+
+  // convert tarikh kes → Date Malaysia
+  const parts = c.tarikh.split("-") // DD-MM-YYYY
+  const caseDate = new Date(parts[2], parts[1]-1, parts[0])
+
+  if(selectedStart){
+    const startDate = new Date(selectedStart)
+    if(caseDate < startDate) pass=false
+  }
+
+  if(selectedEnd){
+    const endDate = new Date(selectedEnd)
+    if(caseDate > endDate) pass=false
+  }
+
     if(catVal && c.kategori!==catVal) pass=false  
     if(areaVal==="inside" && !c.inside) pass=false  
     if(areaVal==="outside" && c.inside) pass=false  
