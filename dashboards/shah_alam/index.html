@@ -239,13 +239,23 @@ function renderData(){
     if(caseDate < startDate) pass=false
   }
 
-  if(selectedEnd){
-    const e = new Date(selectedEnd)
-    const endDate = new Date(
-      e.getFullYear(),
-      e.getMonth(),
-      e.getDate()
-    )
+ 
+if(selectedEnd){
+  const e = new Date(selectedEnd)
+
+  const endDate = new Date(
+    e.getFullYear(),
+    e.getMonth(),
+    e.getDate(),
+    23,
+    59,
+    59,
+    999
+  )
+
+  if(caseDate > endDate) pass=false
+}
+
 
     if(caseDate > endDate) pass=false
   }
