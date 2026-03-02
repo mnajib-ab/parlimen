@@ -4,10 +4,12 @@
   <title>Operanix | Peta Aduan Shah Alam</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
   <script src="https://unpkg.com/leaflet-pip/leaflet-pip.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
@@ -15,7 +17,7 @@
     body { margin:0; font-family: Arial, sans-serif; }
     #map { width:100%; height:100vh; }
 
-    /* ✅ NEW TITLE BAR */
+    /* TITLE */
     #titleBar{
       position:absolute;
       top:12px;
@@ -36,13 +38,13 @@
 
       backdrop-filter:blur(6px);
       box-shadow:0 4px 14px rgba(0,0,0,0.35);
-      letter-spacing:0.5px;
     }
 
     .pin-red,.pin-green,.pin-blue,.pin-yellow,.pin-white{
       width:14px;height:14px;border-radius:50%;position:relative;
       animation:pulse 1.8s infinite;
     }
+
     .pin-red{background:#e60000;}
     .pin-yellow{background:#ffcc00;}
     .pin-blue{background:#0066ff;}
@@ -57,41 +59,75 @@
 
     #filterBox{
       position:absolute;top:10px;right:10px;background:white;
-      padding:8px;border-radius:6px;box-shadow:0 0 6px rgba(0,0,0,0.2);
-      z-index:999;font-size:13px;width:200px;display:none;
+      padding:8px;border-radius:6px;
+      box-shadow:0 0 6px rgba(0,0,0,0.2);
+      z-index:999;font-size:13px;
+      width:200px;
+      display:none;
     }
 
     #filterBox input,#filterBox select{
-      width:100%;margin-top:4px;margin-bottom:6px;font-size:13px;
-      padding:4px;border-radius:4px;border:1px solid #ccc;
+      width:100%;
+      margin-top:4px;
+      margin-bottom:6px;
+      font-size:13px;
+      padding:4px;
+      border-radius:4px;
+      border:1px solid #ccc;
     }
 
     #toggleFilterBtn{
-      position:absolute;top:10px;right:10px;background:#0066ff;
-      color:white;padding:6px 12px;border-radius:20px;
-      font-size:13px;font-weight:bold;cursor:pointer;z-index:1000;
-      box-shadow:0 2px 6px rgba(0,0,0,0.3);
+      position:absolute;
+      top:10px;
+      right:10px;
+      background:#0066ff;
+      color:white;
+      padding:6px 12px;
+      border-radius:20px;
+      font-size:13px;
+      font-weight:bold;
+      cursor:pointer;
+      z-index:1000;
     }
 
     #liveBadge{
-      position:absolute;bottom:12px;right:12px;background:#e60000;
-      color:white;padding:6px 14px;border-radius:18px;font-weight:bold;
-      font-size:13px;animation:blink 1s infinite;z-index:999;
-    }
-
-    @keyframes blink{
-      0%,100%{opacity:1;}
-      50%{opacity:0.4;}
+      position:absolute;
+      bottom:12px;
+      right:12px;
+      background:#e60000;
+      color:white;
+      padding:6px 14px;
+      border-radius:18px;
+      font-weight:bold;
+      font-size:13px;
+      z-index:999;
     }
 
     #legendBox{
-      position:absolute;bottom:50px;left:12px;background:white;
-      padding:8px 10px;border-radius:8px;box-shadow:0 0 6px rgba(0,0,0,0.25);
-      font-size:12px;z-index:999;line-height:1.6;min-width:140px;
+      position:absolute;
+      bottom:50px;
+      left:12px;
+      background:white;
+      padding:8px 10px;
+      border-radius:8px;
+      box-shadow:0 0 6px rgba(0,0,0,0.25);
+      font-size:12px;
+      z-index:999;
     }
 
-    .legend-item{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
-    .legend-dot{width:10px;height:10px;border-radius:50%;}
+    .legend-item{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      margin-bottom:3px;
+    }
+
+    .legend-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+    }
+
     .legend-blue{background:#0066ff;}
     .legend-yellow{background:#ffcc00;}
     .legend-red{background:#e60000;}
@@ -99,8 +135,15 @@
     .legend-white{background:#ffffff;border:1px solid #666;}
 
     #powered{
-      position:absolute;bottom:12px;left:12px;background:#111;color:white;
-      padding:6px 10px;border-radius:6px;font-size:12px;z-index:999;
+      position:absolute;
+      bottom:12px;
+      left:12px;
+      background:#111;
+      color:white;
+      padding:6px 10px;
+      border-radius:6px;
+      font-size:12px;
+      z-index:999;
     }
 
   </style>
@@ -108,36 +151,71 @@
 
 <body>
 
-<!-- ✅ TITLE ADDED -->
 <div id="titleBar">
   PETA ADUAN SHAH ALAM
 </div>
 
 <div id="toggleFilterBtn">Filter</div>
+
 <div id="filterBox">
   <b>Filter</b><br><br>
+
   Tarikh<br>
-  <input type="text" id="dateRange" placeholder="Pilih tarikh"><br>
+  <input type="text" id="dateRange"><br>
+
   Kategori<br>
-  <select id="categoryFilter"><option value="">Semua</option></select>
+  <select id="categoryFilter">
+    <option value="">Semua</option>
+  </select>
+
   Kawasan<br>
   <select id="areaFilter">
-    <option value="">Semua kawasan</option>
-    <option value="inside">Dalam kawasan</option>
-    <option value="outside">Luar kawasan</option>
+    <option value="">Semua</option>
+    <option value="inside">Dalam</option>
+    <option value="outside">Luar</option>
   </select>
 </div>
 
 <div id="map"></div>
+
 <div id="liveBadge">● LIVE</div>
 
 <div id="legendBox">
   <b>Status Aduan</b><br>
-  <div class="legend-item"><div class="legend-dot legend-blue"></div> Urgency Rendah</div>
-  <div class="legend-item"><div class="legend-dot legend-yellow"></div> Urgency Sederhana</div>
-  <div class="legend-item"><div class="legend-dot legend-red"></div> Urgency Tinggi</div>
-  <div class="legend-item"><div class="legend-dot legend-green"></div> Kes Selesai</div>
-  <div class="legend-item"><div class="legend-dot legend-white"></div> Kes Luar Kawasan</div>
+
+  <div class="legend-item">
+    <div class="legend-dot legend-blue"></div> Rendah
+  </div>
+
+  <div class="legend-item">
+    <div class="legend-dot legend-yellow"></div> Sederhana
+  </div>
+
+  <div class="legend-item">
+    <div class="legend-dot legend-red"></div> Tinggi
+  </div>
+
+  <div class="legend-item">
+    <div class="legend-dot legend-green"></div> Selesai
+  </div>
+
+  <div class="legend-item">
+    <div class="legend-dot legend-white"></div> Luar
+  </div>
 </div>
 
 <div id="powered">Powered by Operanix</div>
+
+<script>
+
+const map=L.map('map').setView([3.0738,101.5183],12)
+
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{maxZoom:18}
+).addTo(map)
+
+</script>
+
+</body>
+</html>
