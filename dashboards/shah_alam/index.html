@@ -127,6 +127,7 @@
 </div>  
 <div id="powered">Powered by Operanix</div>  
 <script>  
+  console.log("script start")
 const toggleBtn=document.getElementById("toggleFilterBtn")  
 const filterBox=document.getElementById("filterBox")  
 toggleBtn.addEventListener("click",()=>{  
@@ -287,6 +288,7 @@ async function init(){
     renderData()  
   },30000)  
 }  
+  console.log("script end")
 init()  
 </script>  
 </body>  
