@@ -144,11 +144,13 @@ let markerLayer=L.layerGroup().addTo(map)
 let selectedStart=null,selectedEnd=null  
 flatpickr("#dateRange",{
   mode:"range",
-  dateFormat:"d-m-Y",
+  dateFormat:"Y-m-d",      // internal format (jangan ubah)
+  altInput:true,
+  altFormat:"d-m-Y",       // format display dalam input
   onChange:function(selectedDates, dateStr, instance){
     if(selectedDates.length===2){
-      selectedStart = instance.formatDate(selectedDates[0], "d-m-Y")
-      selectedEnd   = instance.formatDate(selectedDates[1], "d-m-Y")
+      selectedStart = instance.formatDate(selectedDates[0], "Y-m-d")
+      selectedEnd   = instance.formatDate(selectedDates[1], "Y-m-d")
     }else{
       selectedStart=null
       selectedEnd=null
@@ -156,6 +158,7 @@ flatpickr("#dateRange",{
     renderData()
   }
 })
+
 
 
 
