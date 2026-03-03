@@ -158,12 +158,6 @@ flatpickr("#dateRange",{
     renderData()
   }
 })
-
-
-
-
-
-})  
 async function loadBoundary(){  
   const res=await fetch(GEOJSON_URL)  
   const geo=await res.json()  
@@ -228,18 +222,13 @@ function renderData(){
 const filtered = allCases.filter(c=>{
   let pass=true
 
-  // c.tarikh already DD-MM-YYYY
-  const caseNum = parseInt(c.tarikh.split("-").reverse().join(""))
+ // tukar tarikh popup DD-MM-YYYY → YYYY-MM-DD
+const parts = c.tarikh.split("-")
+const caseDate = `${parts[2]}-${parts[1]}-${parts[0]}`
 
-  if(selectedStart){
-    const startNum = parseInt(selectedStart.split("-").reverse().join(""))
-    if(caseNum < startNum) pass=false
-  }
+if(selectedStart && caseDate < selectedStart) pass=false
+if(selectedEnd && caseDate > selectedEnd) pass=false
 
-  if(selectedEnd){
-    const endNum = parseInt(selectedEnd.split("-").reverse().join(""))
-    if(caseNum > endNum) pass=false
-  }
 
   if(catVal && c.kategori!==catVal) pass=false
   if(areaVal==="inside" && !c.inside) pass=false
