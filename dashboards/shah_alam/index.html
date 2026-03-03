@@ -145,15 +145,17 @@ let selectedStart=null,selectedEnd=null
 flatpickr("#dateRange",{  
   mode:"range",  
   dateFormat:"Y-m-d",  
-  onChange:function(selectedDates){  
-    if(selectedDates.length===2){  
-      selectedStart=selectedDates[0].toISOString().slice(0,10)  
-      selectedEnd=selectedDates[1].toISOString().slice(0,10)  
-    }else{  
-      selectedStart=null;selectedEnd=null  
-    }  
-    renderData()  
-  }  
+onChange:function(selectedDates){
+  if(selectedDates.length===2){
+    selectedStart = selectedDates[0]
+    selectedEnd   = selectedDates[1]
+  }else{
+    selectedStart=null
+    selectedEnd=null
+  }
+  renderData()
+}
+
 })  
 async function loadBoundary(){  
   const res=await fetch(GEOJSON_URL)  
@@ -229,24 +231,21 @@ function renderData(){
   )
 
   if(selectedStart){
-    const s = new Date(selectedStart)
-    const startDate = new Date(
-      s.getFullYear(),
-      s.getMonth(),
-      s.getDate()
-    )
+  const startDate = new Date(
+    selectedStart.getFullYear(),
+    selectedStart.getMonth(),
+    selectedStart.getDate()
+  )
 
-    if(caseDate < startDate) pass=false
-  }
+  if(caseDate < startDate) pass=false
+}
 
- 
+   
 if(selectedEnd){
-  const e = new Date(selectedEnd)
-
   const endDate = new Date(
-    e.getFullYear(),
-    e.getMonth(),
-    e.getDate(),
+    selectedEnd.getFullYear(),
+    selectedEnd.getMonth(),
+    selectedEnd.getDate(),
     23,
     59,
     59,
@@ -255,7 +254,6 @@ if(selectedEnd){
 
   if(caseDate > endDate) pass=false
 }
-
 
     if(catVal && c.kategori!==catVal) pass=false  
     if(areaVal==="inside" && !c.inside) pass=false  
