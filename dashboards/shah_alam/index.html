@@ -234,6 +234,14 @@ if(selectedEnd && caseDate > selectedEnd) pass=false
   if(areaVal==="inside" && !c.inside) pass=false
   if(areaVal==="outside" && c.inside) pass=false
 
+
+  console.log({
+  popupTarikh: c.tarikh,
+  caseDateConverted: caseDate,
+  selectedStart,
+  selectedEnd
+})
+
   return pass
 })
 
