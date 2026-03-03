@@ -222,15 +222,18 @@ function renderData(){
  const filtered=allCases.filter(c=>{
   let pass=true
 
-  const caseDateStr = c.created_at.slice(0,10) // YYYY-MM-DD
+ // c.tarikh format = DD-MM-YYYY
+const parts = c.tarikh.split("-")
+const caseDateStr = `${parts[2]}-${parts[1]}-${parts[0]}`
 
- if(selectedStart){
+if(selectedStart){
   if(caseDateStr < selectedStart) pass=false
 }
 
 if(selectedEnd){
   if(caseDateStr > selectedEnd) pass=false
 }
+
 
 
     if(catVal && c.kategori!==catVal) pass=false  
