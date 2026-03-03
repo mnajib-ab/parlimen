@@ -147,14 +147,15 @@ flatpickr("#dateRange",{
   dateFormat:"Y-m-d",  
 onChange:function(selectedDates){
   if(selectedDates.length===2){
-    selectedStart = selectedDates[0]
-    selectedEnd   = selectedDates[1]
+    selectedStart = selectedDates[0].toLocaleDateString("sv-SE")
+    selectedEnd   = selectedDates[1].toLocaleDateString("sv-SE")
   }else{
     selectedStart=null
     selectedEnd=null
   }
   renderData()
 }
+
 
 })  
 async function loadBoundary(){  
@@ -221,39 +222,16 @@ function renderData(){
  const filtered=allCases.filter(c=>{
   let pass=true
 
-  // guna created_at asal → convert ke Malaysia
-  const raw = new Date(c.created_at)
+  const caseDateStr = c.created_at.slice(0,10) // YYYY-MM-DD
 
-  const caseDate = new Date(
-    raw.getFullYear(),
-    raw.getMonth(),
-    raw.getDate()
-  )
-
-  if(selectedStart){
-  const startDate = new Date(
-    selectedStart.getFullYear(),
-    selectedStart.getMonth(),
-    selectedStart.getDate()
-  )
-
-  if(caseDate < startDate) pass=false
+ if(selectedStart){
+  if(caseDateStr < selectedStart) pass=false
 }
 
-   
 if(selectedEnd){
-  const endDate = new Date(
-    selectedEnd.getFullYear(),
-    selectedEnd.getMonth(),
-    selectedEnd.getDate(),
-    23,
-    59,
-    59,
-    999
-  )
-
-  if(caseDate > endDate) pass=false
+  if(caseDateStr > selectedEnd) pass=false
 }
+
 
     if(catVal && c.kategori!==catVal) pass=false  
     if(areaVal==="inside" && !c.inside) pass=false  
