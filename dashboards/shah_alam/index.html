@@ -144,11 +144,11 @@ let markerLayer=L.layerGroup().addTo(map)
 let selectedStart=null,selectedEnd=null  
 flatpickr("#dateRange",{
   mode:"range",
-  dateFormat:"Y-m-d",
+  dateFormat:"d-m-Y",
   onChange:function(selectedDates, dateStr, instance){
     if(selectedDates.length===2){
-      selectedStart = instance.formatDate(selectedDates[0], "Y-m-d")
-      selectedEnd   = instance.formatDate(selectedDates[1], "Y-m-d")
+      selectedStart = instance.formatDate(selectedDates[0], "d-m-Y")
+      selectedEnd   = instance.formatDate(selectedDates[1], "d-m-Y")
     }else{
       selectedStart=null
       selectedEnd=null
@@ -156,6 +156,7 @@ flatpickr("#dateRange",{
     renderData()
   }
 })
+
 
 
 
@@ -221,30 +222,29 @@ function renderData(){
   if(heatLayer) map.removeLayer(heatLayer)  
   const catVal=document.getElementById("categoryFilter").value  
   const areaVal=document.getElementById("areaFilter").value  
-const filtered = allCases.filter(c => {
-  let pass = true
+const filtered = allCases.filter(c=>{
+  let pass=true
 
-  // Convert tarikh popup (DD-MM-YYYY) ke number YYYYMMDD
-  const parts = c.tarikh.split("-")
-  const caseNum =
-    parseInt(parts[2] + parts[1] + parts[0]) // YYYYMMDD
+  // c.tarikh already DD-MM-YYYY
+  const caseNum = parseInt(c.tarikh.split("-").reverse().join(""))
 
-  if (selectedStart) {
-    const startNum = parseInt(selectedStart.replaceAll("-", ""))
-    if (caseNum < startNum) pass = false
+  if(selectedStart){
+    const startNum = parseInt(selectedStart.split("-").reverse().join(""))
+    if(caseNum < startNum) pass=false
   }
 
-  if (selectedEnd) {
-    const endNum = parseInt(selectedEnd.replaceAll("-", ""))
-    if (caseNum > endNum) pass = false
+  if(selectedEnd){
+    const endNum = parseInt(selectedEnd.split("-").reverse().join(""))
+    if(caseNum > endNum) pass=false
   }
 
-  if (catVal && c.kategori !== catVal) pass = false
-  if (areaVal === "inside" && !c.inside) pass = false
-  if (areaVal === "outside" && c.inside) pass = false
+  if(catVal && c.kategori!==catVal) pass=false
+  if(areaVal==="inside" && !c.inside) pass=false
+  if(areaVal==="outside" && c.inside) pass=false
 
   return pass
 })
+
 
   const heatPoints=filtered.map(c=>[c.lat,c.lng,1])  
   heatLayer=L.heatLayer(heatPoints,{radius:40,blur:25,minOpacity:0.4}).addTo(map)  
