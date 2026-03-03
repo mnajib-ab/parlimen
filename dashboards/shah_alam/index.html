@@ -142,19 +142,21 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).a
 let boundaryLayer,allCases=[],heatLayer  
 let markerLayer=L.layerGroup().addTo(map)  
 let selectedStart=null,selectedEnd=null  
-flatpickr("#dateRange",{  
-  mode:"range",  
-  dateFormat:"Y-m-d",  
-onChange:function(selectedDates){
-  if(selectedDates.length===2){
-    selectedStart = selectedDates[0].toLocaleDateString("sv-SE")
-    selectedEnd   = selectedDates[1].toLocaleDateString("sv-SE")
-  }else{
-    selectedStart=null
-    selectedEnd=null
+flatpickr("#dateRange",{
+  mode:"range",
+  dateFormat:"Y-m-d",
+  onChange:function(selectedDates, dateStr, instance){
+    if(selectedDates.length===2){
+      selectedStart = instance.formatDate(selectedDates[0], "Y-m-d")
+      selectedEnd   = instance.formatDate(selectedDates[1], "Y-m-d")
+    }else{
+      selectedStart=null
+      selectedEnd=null
+    }
+    renderData()
   }
-  renderData()
-}
+})
+
 
 
 })  
